@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    function get() {
+        $.ajax
+        ({
+            type: "GET",
+            url: "https://royzhao/api/users",
+            // 發送數據到服務器時所使用的內容類型
+            contentType: 'application/json',
+            // 服務器響應的數據類型
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $('#t1').val(JSON.stringify(data));
+				$('#users tr:not(:eq(0))').remove();
+				for (var x = 0; x < data.length; x++) {
+					var name = data[x].name;
+					var tel = data[x].tel;
+					var age = data[x].age;
+					$('#users').append('<tr><td>'+name+'</td><td>'+tel+'</td><td>'+age+'</td></tr>');
+				};
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert('XMLHttpRequest.status:' + XMLHttpRequest.status + ', XMLHttpRequest.readyState:' +
+                    XMLHttpRequest.readyState + ', textStatus:' + textStatus);
+            }
+        });
+    }
+
+    function post() {
+        $.ajax
+        ({
+            type: "POST",
+            url: "https://royzhao/api/users/addUser",
+            // 發送數據到服務器時所使用的內容類型
+            contentType: 'application/json',
+            // 服務器響應的數據類型
+            dataType: "json",
+			data: '{"name":'+"\""+$("#name").val()+"\""+', "tel":'+"\""+$("#tel").val()+"\""+', "age":'+$("#age").val()+'}',
+			success: function (data) {
+                console.log(data);
+                alert("Success");
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert('XMLHttpRequest.status:' + XMLHttpRequest.status + ', XMLHttpRequest.readyState:' +
+                    XMLHttpRequest.readyState + ', textStatus:' + textStatus);
+            }
+        });
+    }
+
+</script>
+<head>
+    <meta charset="UTF-8">
+    <title>Demo</title>
+</head>
+<body>
+<div>
+    <p>Registered Users</p>
+	<textarea cols="50" rows="8" id="t1"></textarea>
+
+	<table id="users" border="1" align="left">
+		<tr>
+			<th>Full Name</th>
+			<th>Tel</th>
+			<th>Age</th>
+		</tr>
+	</table>
+
+    <input type="button" value="Get Users" onclick="get()"/>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<hr/>
+<div>
+	<p>New User entry</p>
+	<table >
+		<tr>
+			<td>Full Name:</td>
+			<td><input type="text" id="name" value="" placeholder="Full Name"/></td>
+		</tr>
+		<tr>
+			<td>Tel:</td>
+			<td><input type="text" id="tel" value="" placeholder="Tel"/></td>
+		</tr>
+		<tr>
+			<td>Age:</td>
+			<td><input type="int" id="age" value="" placeholder="Age"/></td>
+		</tr>
+	</table>
+
+    <input type="button" value="Submit" onclick="post()"/>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+version: '3'
+services:
+  mongo:
+    build: mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+
+
+  integration:
+    build: integration
+    restart: unless-stopped
+    container_name: integration-service
+    volumes:
+      - ./integration/camel-demo-service-3.16.0.jar:/opt/camel-example-spring-boot-rest-openapi-3.16.0.jar
+    ports:
+      - "8080:8080"
+
+
+
+  nginx:
+    restart: unless-stopped
+    image: nginx:latest
+    container_name: nginx-integration
+    command: sh -c "nginx; sleep 30d"
+    ports:
+      - 80:80
+      - 443:443
+    links:
+      - integration
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/server.crt:/etc/nginx/ssl/certificate.crt
+      - ./nginx/ca.crt:/etc/nginx/ssl/ca.crt
+      - ./nginx/server.key:/etc/nginx/ssl/private.key
+
+
