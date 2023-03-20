@@ -1,0 +1,40 @@
+---
+- name: Set docker permissions
+  shell: |
+    chmod 666 /run/docker.sock || true
+    chmod 644 /etc/docker/daemon.json || true
+    chown root:root /etc/docker/daemon.json || true
+    
+    if ! [ -e /etc/default/docker ]; then
+      touch /etc/default/docker
+    fi
+    chmod 644 /etc/default/docker || true
+    chown root:root /etc/default/docker || true
+
+- name: Add audit
+  lineinfile:
+    dest: /etc/audit/rules.d/audit.rules
+    line: "{{ item }}"
+  with_items:
+    - '-w /usr/bin/docker -p wa' 
+    - '-w /var/lib/docker -p wa'
+    - '-w /etc/docker -p wa'
+    - '-w /usr/lib/systemd/system/docker.service -p wa'
+    - '-w /usr/lib/systemd/system/docker.socket -p wa'
+    - '-w /etc/default/docker -p wa'
+    - '-w /etc/docker/daemon.json -p wa'
+    - '-w /usr/bin/docker-containerd -p wa'
+    - '-w /usr/bin/docker-runc -p wa'
+
+- name: Restart audit
+  command: /sbin/service auditd restart
+
+- name: Download needed files from binary storage with root privileges
+  get_url: url="{{ item.url }}" dest="{{ item.dest }}" owner=root group=root mode="{{ item.mode }}" url_username=demo_build url_password="{{ demo_build_password }}" force=yes
+  with_items:
+    - { url: "{{ bin_storage }}/etc/docker/daemon.json", mode: "0644", dest: "/etc/docker/daemon.json" }
+
+- name: Restart docker
+  systemd:
+    name: docker
+    state: restarted

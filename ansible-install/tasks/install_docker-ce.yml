@@ -1,0 +1,84 @@
+---
+
+- name: Install yum-plugin-versionlock 
+  yum:
+    name: yum-plugin-versionlock
+    state: present
+
+- name: Clean old docker repo
+  shell: |
+    rm -rf /etc/yum.repos.d/docker*
+
+- name: Add docker config
+  include_tasks: ../tasks/docker_config.yml
+
+- name: Add docker repository
+  yum_repository:
+    name: docker
+    description: Docker Repository
+    baseurl: https://download.docker.com/linux/centos/$releasever/$basearch/stable
+    gpgcheck: no
+    enabled: yes
+
+- name: Stop docker
+  systemd:
+    name: docker
+    state: stopped
+  ignore_errors: true
+
+- name: Unlock docker packages
+  command: "yum versionlock delete {{ item }}"
+  with_items: 
+    - docker-ce
+    - docker-ce-rootless-extras
+    - docker-ce-cli
+  ignore_errors: yes
+
+- name: Remove old packages
+  yum:
+    name: docker, docker-ce, docker-ce-cli, docker-ce-rootless-extras, containerd
+    state: absent
+
+- name: Clean yum cache
+  shell: |
+    yum clean all
+
+- name: Install docker packages
+  yum:
+    name: docker-ce-{{ docker_version }}, docker-ce-cli-{{ docker_version }}, docker-ce-rootless-extras-{{ docker_version }}
+    state: present
+    allow_downgrade: yes
+  tags:
+  - installation
+
+- name: Sleep for 120 seconds and continue with play
+  ansible.builtin.wait_for:
+    timeout: 120
+
+- name: Lock docker packages
+  command: "yum versionlock {{ item }}"
+  with_items: 
+    - docker-ce
+    - docker-ce-rootless-extras
+    - docker-ce-cli
+
+- name: Enable and start docker
+  systemd:
+    name: docker
+    daemon_reload: yes
+    enabled: yes
+    state: started
+
+- name: Add user {{ user }} to group docker
+  user:
+    name: "{{ user }}"
+    groups: docker
+    append: yes
+    state: present
+  ignore_errors: true
+
+- name: Docker host configuration based on security bench
+  include_tasks: ../tasks/docker_host_config.yml
+
+- name: Docker multiarch tools
+  include_tasks: ../tasks/docker_buildx.yml

@@ -1,0 +1,9 @@
+---
+- name: Add multiarch support tools
+  shell: docker run --privileged --rm nexus/binfmt --install all
+  when: (ansible_distribution == "CentOS" and ansible_distribution_major_version >= "8") or
+        (ansible_distribution == "Rocky" and ansible_distribution_major_version >= "8") or
+        (ansible_distribution == "AlmaLinux" and ansible_distribution_major_version >= "8") or
+        (ansible_distribution == "RedHat" and ansible_distribution_major_version >= "8")
+  become: yes
+  become_user: "{{ user }}"

@@ -1,0 +1,18 @@
+---
+- name: Clean old docker repo
+  shell: |
+    rm -rf /etc/docker
+    rm -rf /home/{{ user }}/.docker
+    install -d /etc/docker
+    install -d /home/{{ user }}/.docker
+    chown {{ user }}:{{ user }} /home/{{ user }}/.docker
+
+- name: Download needed files from binary storage with root privileges
+  get_url: url="{{ item.url }}" dest="{{ item.dest }}" owner=root group=root mode="{{ item.mode }}" url_username=demo_build url_password="{{ demo_build_password }}" force=yes
+  with_items:
+    - { url: "{{ bin_storage }}/etc/docker/daemon.json", mode: "0644", dest: "/etc/docker/daemon.json" }
+
+- name: Download needed files from binary storage with "{{ user }}" privileges
+  get_url: url="{{ item.url }}" dest="{{ item.dest }}" owner="{{ user }}" group="{{ user }}" mode="{{ item.mode }}" url_username=demo_build url_password="{{ demo_build_password }}" force=yes
+  with_items:
+    - { url: "{{ bin_storage }}/etc/docker/config.json", mode: "0644", dest: "/home/{{ user }}/.docker/config.json" }

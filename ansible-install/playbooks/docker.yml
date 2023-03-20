@@ -1,0 +1,9 @@
+---
+- hosts: all
+
+  vars_files:
+    - "../global/vars.yml"
+
+  tasks:
+  - name: Install docker
+    include_tasks: ../tasks/install_docker-ce.yml

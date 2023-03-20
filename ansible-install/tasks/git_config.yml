@@ -1,0 +1,6 @@
+---
+- name: Download needed files from binary storage with "{{ user }}" privileges
+  get_url: url="{{ item.url }}" dest="{{ item.dest }}" owner="{{ user }}" group="{{ user }}" mode="{{ item.mode }}" url_username=demo_build url_password="{{ demo_build_password }}" force=yes
+  with_items:
+    - { url: "{{ bin_storage }}/home/demo/.gitconfig", mode: "0644", dest: "/home/{{ user }}/.gitconfig" }
+    - { url: "{{ bin_storage }}/home/demo/.git-credentials", mode: "0644", dest: "/home/{{ user }}/.git-credentials" }

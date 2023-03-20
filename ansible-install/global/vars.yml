@@ -1,0 +1,46 @@
+---
+user: demouser
+
+certs_dir: "/etc/certs"
+
+bin_storage: https://nexus/repository/filestore
+java_home: "/opt/jdk"
+epel_baseurl: "https://download.fedoraproject.org/pub/epel/8/Everything/$basearch/"
+
+git_version: "2.12.2"
+git_parent_path: "/opt"
+git_symlink: "/opt/git"
+
+docker_version: "20.10.22"
+
+daily_packages:
+  - jq
+  - fontconfig
+  - httpd
+  - bash-completion
+  - screen
+  - ncdu
+  - dos2unix
+  - iftop
+  - lsof
+  - openssh-clients
+  - unzip
+  - tar
+  - rsync
+  - wget
+  - mc
+  - net-tools
+  - zip
+  - sshpass
+  - lftp
+  - expect
+  - psmisc
+  - yum-plugin-versionlock
+  - ack
+  - graphviz
+  - gcc-c++
+  - rust
+  - cargo
+  - openssl-devel
+
+timezone: "Asia/Shanghai"
