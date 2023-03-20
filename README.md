@@ -1,15 +1,15 @@
 # Assessment: integration-demo
 
 ```
-Desgin Flow:
+Design Flow:
 UI[Index.html] -> GateWay[Nignx] -> Restful Service[Camel + SpringBoot] -> DataBase[Mongo]
 
 ```
 
-Project name: https://github.com/Zhao001/programing-assessment 
+Git Project URL: https://github.com/Zhao001/programing-assessment 
 
 **Quickly Testing steps:**
-- download source code [ https://github.com/Zhao001/programing-assessment ] by Git , goto docker compose folder ./docker-compose-integration  
+- download source code from  https://github.com/Zhao001/programing-assessment  by Git , goto docker compose folder ./docker-compose-integration  
 run command:
 ```
 cd ./docker-compose-integration  
@@ -18,21 +18,21 @@ docker-compose up -d
 - after all services started successful,  open ./Index.html by IE, then could insert and list data.
 
 ## Modules list
-| Name           | project folder or file     | description                                                                                                                                                                                         |
-|----------------|----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| service        | camel-service              | mvn 3.6.3, jdk11  <br/> publish restful API by Camel and spring boot                                                                                                                                | 
-| docker compose | docker-compose-integration | deploy Nignx + Integration service + MongoDB. <br/>Nignx: https://localhost -> http://localhost:8080 ; http://localhost -> https://locahost  <br/>MongoDB port: 27017  <br/>rest service port: 8080 | 
-| UI             | Index.html                 | insert data and list all data by UI                                                                                                                                                                 |
+| Name           | Project folder or file     | Description                                                                                                                                                                                                  |
+|----------------|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| service        | camel-service              | mvn 3.6.3, jdk11  <br/> publish Restful API by Camel and spring boot                                                                                                                                         | 
+| docker compose | docker-compose-integration | deploy services Nignx + Integration service + MongoDB. <br/>Nignx: https://localhost -> http://localhost:8080 ; http://localhost -> https://locahost  <br/>MongoDB port: 27017  <br/>rest service port: 8080 | 
+| UI             | Index.html                 | insert and list all data by UI                                                                                                                                                                               |
 
 
 
 ## Modules Introduce
 
 ### Service
-Implement Rest API that based on Camel Springboot, it will publish services by paths /api/users/addUser and /api/users, to insert and list all User data.  
+Implement Rest API that based on Camel Springboot, it will publish services by paths /api/users/addUser and /api/users.  
 User data could be stored in Mongo database. 
 
-Actions:  
+Test Actions:  
 
 - insert User:
 ```
@@ -49,12 +49,13 @@ https://github.com/apache/camel-spring-boot-examples/tree/main/rest-openapi
 https://github.com/apache/camel-spring-boot-examples/tree/main/platform-http
 
 ### MongoDB
-There is a Collection which named user in this Database, it will be deployed in docker-compose up.  
+Database have a Collection which named user;  
+DB server will be deployed in docker-compose up.  
 
 ### docker compose
 file: docker-compose-integration/docker-compose.yml  
 Docker compose contains 3 services: mongo/integration/nginx, 
-after all servers started by command docker-compose up -d, we could open HTML file  
+after all servers started by command "docker-compose up -d", we could open HTML file  
 Index.html to insert and list data.
 
 ### UI
@@ -71,7 +72,7 @@ cp -rf ./camel-service/rest-openapi/target/camel-demo-service-3.16.0.jar docker-
 ```
 - go to ./docker-compose-integration
 - startup command: docker-compose up -d
-- after all services started successful, open Index.html by IE, use it to insert and search data.
+- after all services started successful, open Index.html by IE to test continue.
 
 ## project progress
 - [x] Three services have completed
