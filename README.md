@@ -6,7 +6,9 @@ UI[Index.html] -> GateWay[Nignx] -> Restful Service[Camel + SpringBoot] -> DataB
 
 ```
 
-Git Project URL: https://github.com/Zhao001/programing-assessment 
+Git Project URL: https://github.com/Zhao001/programing-assessment   
+
+**There is a video file ./video-deploy-steps.mp4, which will share deployment steps one by one.**
 
 **Quickly Testing steps:**
 - download source code from  https://github.com/Zhao001/programing-assessment  by Git , goto docker compose folder ./docker-compose-integration  
