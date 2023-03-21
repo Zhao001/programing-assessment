@@ -83,12 +83,7 @@
 - name: Docker multiarch tools
   include_tasks: ../tasks/docker_buildx.yml
 
-- name: Install git for COS{{ major_version }}
-  include_tasks: ../tasks/install_git_cos{{ major_version }}.yml
 
-- name: Add git config
-  include_tasks: ../tasks/git_config.yml
-
-- name: Install git webui
-  include_tasks: ../tasks/install_git_webui.yml
+#- name: Down git demo project from https://github.com/Zhao001/programing-assessment/archive/refs/heads/master.zip; -> unzip; -> run docker compose start sercies
+#  include_tasks: ../tasks/aseesssment_docker-compose-install.yml
 

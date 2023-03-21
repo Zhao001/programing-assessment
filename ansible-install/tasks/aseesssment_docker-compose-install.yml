@@ -1,0 +1,23 @@
+- set_fact:
+    os_major_version: "7"
+  when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "7") or
+    (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
+
+- name: Download zip
+  get_url:
+    url: "zip"
+    dest: ".zip"
+    owner: ""
+    group: ""
+    mode: 0644
+
+- name: Extract zip
+  unarchive:
+    src: ".zip"
+    dest: ""
+    owner: ""
+    group: ""
+    remote_src: yes
+
+- name: start services
+  command:

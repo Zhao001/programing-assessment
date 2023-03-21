@@ -1,8 +1,0 @@
----
-- name: Install git-webui
-  shell: |
-    rm -rf /{{ git_parent_path }}/git-webui
-    install -d /{{ git_parent_path }}/git-webui
-    cd /{{ git_parent_path }}/git-webui
-    /{{ git_parent_path }}/git/bin/git clone https://github.com/alberthier/git-webui.git .
-    chown -R {{ user }}:{{ user }} /{{ git_parent_path }}/git-webui

@@ -7,10 +7,6 @@ bin_storage: https://nexus/repository/filestore
 java_home: "/opt/jdk"
 epel_baseurl: "https://download.fedoraproject.org/pub/epel/8/Everything/$basearch/"
 
-git_version: "2.12.2"
-git_parent_path: "/opt"
-git_symlink: "/opt/git"
-
 docker_version: "20.10.22"
 
 daily_packages:
